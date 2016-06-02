@@ -5,7 +5,11 @@ using System.Collections;
 public class TextController : MonoBehaviour {
 
 	public Text text;
-	private enum States {cell_0, sheets_0, sheets_1, sheets_2, file_0, door_0, door_1, guard_0, guard_1, freedom, yard, window, file_1, cell_1, sheets_3, ladder_0, ladder_1, ladder_2, rock_0, rock_1}
+	private enum States {cell_0, sheets_0, sheets_1, sheets_2, 
+		file_0, door_0, door_1, guard_0, guard_1, freedom, yard, window, 
+		file_1, cell_1, sheets_3, ladder_0, ladder_1, ladder_2, rock_0, 
+		rock_1, bonus, outb_0, scaf_0, tun_0, front_0, car_0, car_1, front_fail, front_1,
+		office_go, upstairs_0, front_2, front_fail_1, scaf_1, tun_1, left_0, left_1, right_0, right_1}
 	private States myState;
 	// Use this for initialization
 	void Start () {
@@ -37,7 +41,25 @@ public class TextController : MonoBehaviour {
 		else if (myState == States.ladder_2){state_ladder_2();}
 		else if (myState == States.rock_0){state_rock_0();}
 		else if (myState == States.rock_1){state_rock_1();}
-		
+		else if (myState == States.bonus) {bonus();}
+		else if (myState == States.outb_0) {outb_0();}
+		else if (myState == States.tun_0) {tun_0();}
+		else if (myState == States.scaf_0){scaf_0();}
+		else if (myState == States.front_0) {front_0();}
+		else if (myState == States.car_0){car_0();}
+		else if (myState == States.car_1){car_1();}
+		else if (myState == States.front_fail){front_fail();}
+		else if (myState == States.front_1){front_1();}
+		else if (myState == States.office_go){office_go();}
+		else if (myState == States.upstairs_0){upstairs_0();}
+		else if (myState == States.front_2){front_2();}
+		else if (myState == States.front_fail_1){front_fail_1();}
+		else if (myState == States.scaf_1){scaf_1();}
+		else if (myState == States.tun_1){tun_1();}
+		else if (myState == States.left_0){left_0();}
+		else if (myState == States.left_1){left_1();}
+		else if (myState == States.right_0){right_0();}
+		else if (myState == States.right_1){right_1();}
 		
 	}
 	void state_cell_0 () {
@@ -58,6 +80,9 @@ public class TextController : MonoBehaviour {
 		}
 		else if (Input.GetKeyDown (KeyCode.D)){
 			myState = States.door_0;
+		}
+		else if (Input.GetKeyDown(KeyCode.B)){
+			myState = States.bonus;
 		}
 	}
 	void state_sheets_0 () {
@@ -115,9 +140,7 @@ public class TextController : MonoBehaviour {
 		}
 	}
 	void state_freedom(){
-		text.text = "You steal a police car and break into the office where you used to work. You check all the computers "
-			+ "and do your fair share of investigating before gathering enough evidence to force a re-investigation in court next week.\n\n" +
-			"Guess it's time to break back into prison!!\n\nPress Y to get out of the car and skulk " +
+		text.text ="Guess it's time to break back into prison!!\n\nPress Y to get out of the car and skulk " +
 			"around the prison yard.";
 		if (Input.GetKeyDown(KeyCode.Y))
 		{
@@ -190,10 +213,10 @@ public class TextController : MonoBehaviour {
 	void state_guard_1(){
 		text.text = "You knew those sheets could be used for something, you wrap your " +
 			"sheets around the guards face, silencing him and knocking him out with your " +
-			"pungent body odor!\n\n ––> to continue.";
+			"pungent body odor!\n\n C to continue.";
 			
-		if (Input.GetKeyDown(KeyCode.RightArrow)){
-			myState = States.freedom;
+		if (Input.GetKeyDown(KeyCode.C)){
+			myState = States.office_go;
 		}
 	}
 	void state_ladder_0(){
@@ -243,5 +266,161 @@ public class TextController : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.R)) {
 			myState = States.cell_0;
 		}
+	}
+	void bonus(){
+		text.text = "You reached the bonus screen!! Give yourself a pat on the back for pressing completely random buttons :)"+
+			"\n\nPress R to return.";
+		if (Input.GetKeyDown(KeyCode.R)){
+			myState = States.cell_0;
+		}
+		
+	}	
+	void outb_0(){
+		text.text = "You roll up outside of your workplace and park the police car inside some bushes. "
+			+ "You need to find a way inside now. There's a slightly creaked window on the third floor which can be reached by a nearby scaffolding, a secret underground tunnel " +
+			"that may or may not trigger the alarm, and there is always the front door. "
+			+"\n\nPress S to go to the scaffold, U to find the tunnel, and F to try the front door.";
+		if (Input.GetKeyDown(KeyCode.S)){
+			myState = States.scaf_0;
+		}
+		else if (Input.GetKeyDown(KeyCode.U)){
+			myState = States.tun_0;
+		}
+		else if (Input.GetKeyDown(KeyCode.F)){
+			myState = States.front_0;
+		}
+		
+	}
+		
+	void scaf_0() {
+		text.text = "You approach the scaffolding and it's just low enough for you to " +
+			"hop into. The remote is also still functional.\n\nPress H to hop in, R to return.";
+		if (Input.GetKeyDown(KeyCode.H)){
+			myState = States.scaf_1;
+		}
+		else if (Input.GetKeyDown(KeyCode.R)){
+			myState = States.outb_0;
+		}
+	}
+	void tun_0(){
+		text.text = "You approach the tunnel, and you see the hatch is slightly open, just as you left it " +
+			"before the arrest. There is a lantern behind the bush hiding the tunnel so darkness won't be a problem.\n\n" +
+			"Press E to enter the tunnel. R to return.";
+		if (Input.GetKeyDown(KeyCode.R)){
+			myState = States.outb_0;
+		}
+		else if (Input.GetKeyDown(KeyCode.E)){
+			myState = States.tun_1;
+		}
+	}
+	void front_0(){
+		text.text = "There is a security guard roaming the front door. There must be some" +
+			" way to get past him.\n\nPress C to check your car for anything that would help, S " +
+			"to sneak your way in, or R to return.";
+		if (Input.GetKeyDown(KeyCode.C)){
+			myState = States.car_0;
+		}
+		else if (Input.GetKeyDown(KeyCode.S)){
+			myState = States.front_fail;
+		}
+		else if (Input.GetKeyDown(KeyCode.R)){
+			myState = States.outb_0;
+		}
+	}
+	void car_0(){
+		text.text = "You find a uniform, gun, silencer, and badge! What luck!\n\n" +
+			"Press G to gear up, and R to return.";
+		if (Input.GetKeyDown(KeyCode.G)){
+			myState = States.car_1;
+		}
+		else if (Input.GetKeyDown(KeyCode.R)){
+			myState = States.front_0;
+		}
+	}
+	void car_1(){
+		text.text ="You're all geared up and ready to go.\n\n Press G to go in.";
+		if (Input.GetKeyDown(KeyCode.G)){
+			myState = States.front_1;
+		}
+	}
+	void front_fail(){
+		text.text = "You try to slip through the front door and past the security guard, " +
+			"but he spots you out of the corner of his peripheral vision. Busted.\n\n" +
+			"Press R to retry.";
+		if (Input.GetKeyDown(KeyCode.R)){
+			myState = States.cell_0;
+		}
+	}
+	void front_1(){
+		text.text = "You walk right through the front door like you own the place. " +
+			"The security guard acknowledges your disguise as a cop and asks you what business " +
+			"you have here.\n\nA. Show him your badge and keep it confidential.\nB. Tell him you're " +
+			"here to investigate the scene of the crime.";
+		if (Input.GetKeyDown(KeyCode.A)){
+			myState = States.front_2;
+		}
+		else if (Input.GetKeyDown(KeyCode.B)){
+			myState = States.front_fail_1;
+		}
+	}
+	void office_go(){
+		text.text = "Time to go and investigate your office for more evidence to prove yourself innocent." +
+			"\n\nPress P to proceed.";
+		if (Input.GetKeyDown(KeyCode.P)){
+			myState = States.outb_0;
+		}
+			
+	}
+	void upstairs_0(){
+		
+	}
+	void front_2(){
+		text.text = "The security guard steps down and acknowledges your power over him. " +
+			"\n\nPress P to proceed to your office.";
+		if (Input.GetKeyDown(KeyCode.P)){
+			myState = States.upstairs_0;
+		}
+	}
+	void front_fail_1(){
+		text.text = "The security guard speculates about your interest on investigating " +
+			"in the middle of the night and calls it in. Your identity gets exposed and you " +
+			"are sent back to Jail. Busted.\n\nPress R to retry.";
+		if (Input.GetKeyDown(KeyCode.R)){
+			myState = States.cell_0;
+		}
+	}
+	void scaf_1(){
+		text.text = "You press the up button on the control panel and the flimsy scaffolding " +
+			"begins to rise. As you are going up, you notice the wire on the left side of the scaffolding " +
+			"is chewed down. You rapidly switch the direction to down but with your weight, the scaffold " +
+			"was already planning on going down. As the wire breaks you reflect on your life and see " +
+			"it flash before your eyes.\n\nPress R to retry.";
+		if (Input.GetKeyDown(KeyCode.R)){
+			myState = States.cell_0;
+		}
+	}
+	void tun_1(){
+		text.text = "As you enter the tunnel, the ladder breaks and you fall onto the ground.\nBang!\n" +
+			"You give yourself a minute to get on your feet and recover before proceeding. There are two " +
+			"paths to take, the left one which leads to the garbage dump, or the right one which leads to a supply closet " +
+			"on the fourth floor.\n\nPress L to go left, Press R to go right.";
+		if (Input.GetKeyDown(KeyCode.R)){
+			myState = States.right_0;
+		}
+		else if (Input.GetKeyDown(KeyCode.L)){
+			myState = States.left_0;
+		}
+	}
+	void left_0(){
+		
+	}
+	void left_1(){
+		
+	}
+	void right_0(){
+		
+	}
+	void right_1(){
+		
 	}
 } 
