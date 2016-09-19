@@ -9,7 +9,8 @@ public class TextController : MonoBehaviour {
 		file_0, door_0, door_1, guard_0, guard_1, freedom, yard, window, 
 		file_1, cell_1, sheets_3, ladder_0, ladder_1, ladder_2, rock_0, 
 		rock_1, bonus, outb_0, scaf_0, tun_0, front_0, car_0, car_1, front_fail, front_1,
-		office_go, upstairs_0, front_2, front_fail_1, scaf_1, tun_1, left_0, left_1, right_0, right_1}
+		office_go, upstairs_0, front_2, front_fail_1, scaf_1, tun_1, left_0, left_1, right_0, right_1,
+		climb_d, star_wars, stairs_d, escape_0, escape_1}
 	private States myState;
 	// Use this for initialization
 	void Start () {
@@ -60,7 +61,12 @@ public class TextController : MonoBehaviour {
 		else if (myState == States.left_1){left_1();}
 		else if (myState == States.right_0){right_0();}
 		else if (myState == States.right_1){right_1();}
-		
+		else if (myState == States.stairs_d){stairs_d();}
+		else if (myState == States.star_wars){star_wars();}
+		else if (myState == States.climb_d){climb_d();}
+		else if (myState == States.escape_0){escape_0();}
+		else if (myState == States.escape_1){escape_1();}
+			
 	}
 	void state_cell_0 () {
 		text.text = "It's been 34 days since the incident, seven million dollars " + 
@@ -372,7 +378,13 @@ public class TextController : MonoBehaviour {
 			
 	}
 	void upstairs_0(){
-		
+		text.text = "You proceed up the fourth floor and move into your office. " +
+			"You see that your computer and all your office materials have been boxed so you'll need to plug " +
+			"everything back in. Hopefully your password still works.\n...\nYou grab the information you need and leave a long " +
+			"anonymous note for the next person who sees it.\n\nPress P to proceed,";
+		if (Input.GetKeyDown(KeyCode.P)){
+			myState = States.escape_0;
+		}
 	}
 	void front_2(){
 		text.text = "The security guard steps down and acknowledges your power over him. " +
@@ -412,15 +424,89 @@ public class TextController : MonoBehaviour {
 		}
 	}
 	void left_0(){
-		
+		text.text = "As you proceed left, you notice the passage getting darker and darker. " +
+			"Apparently people stopped putting torches on the wall at the end of the medieval times. " +
+			"\nYou can no longer see.\n\nPress C to continue on or G to go back like the wuss you are.";
+		if (Input.GetKeyDown(KeyCode.C)){
+			myState = States.left_1;
+		}
+		else if (Input.GetKeyDown(KeyCode.G)){
+			myState = States.tun_1;
+		}
 	}
 	void left_1(){
-		
+		text.text = "You continue on this dark path when you see a little sliver of light (how original). " +
+			"Following the light as anyone would, you see a ladder. You move towards the ladder when\nPlop!\n" +
+			"You fell into the garbage dump. Covered in trash, you see no way out except a small hatch mainly used " +
+			"for construction.\n\nPress C to climb out and I to investigate the trash.";
+		if (Input.GetKeyDown(KeyCode.C)){
+			myState = States.climb_d;
+		}
+		else if (Input.GetKeyDown(KeyCode.I)){
+			myState = States.star_wars;
+		}
 	}
 	void right_0(){
-		
+		text.text = "You proceed along the lit path until you find a ladder that leads all the way up the janitor's " +
+			"chute to the fourth floor supply closet. You can climb up or you can go back and try the other path.\n\n" +
+			"Press C to climb up or G to go back.";
+		if (Input.GetKeyDown(KeyCode.C)){
+			myState = States.right_1;
+		}
+		else if (Input.GetKeyDown(KeyCode.G)){
+			myState = States.tun_1;
+		}
 	}
 	void right_1(){
-		
+		text.text = "You proceed all the way up to the supply closet, only to find that there is a lock on the hatch to get in.\n\nPress G to go back and take the left path.";
+		if (Input.GetKeyDown(KeyCode.G)){
+			myState = States.tun_1;
+		}
 	}
-} 
+	void climb_d(){
+		text.text = "You climb up the trash over and over again and you keep falling " +
+			"until finally you are so fatigued that you can barely notice that the trash " +
+			"is compacting itself on you.\nThere's no escaping this.\n\nPress R to retry.";
+		if (Input.GetKeyDown(KeyCode.R)){
+			myState = States.cell_0;
+		}
+	}
+	void star_wars(){
+		text.text = "You start looking through the trash when you notice the garbage is compacting " +
+			"on you!! What a Star Wars moment except that there's no C-3PO or R2D2 to save you this " +
+			"time! You pull the lever to the hatch halfway even though it's locked to stop the compactor " +
+			"and the walls manage to break the lever open, securing your escape. You escape the dump and find " +
+			"yourself in the basement with a flight of stairs.\n\nPress U to go up the stairs and D to go down.";
+		if (Input.GetKeyDown(KeyCode.U)){
+			myState = States.upstairs_0;
+		}
+		else if (Input.GetKeyDown(KeyCode.D)){
+			myState = States.stairs_d;
+		}
+	}
+	void stairs_d(){
+		text.text = "I don't know who in their right mind would think that there is a level " +
+			"lower than the basement... You lose try again.\n\nPress R.";
+		if (Input.GetKeyDown(KeyCode.R)){
+			myState = States.cell_0;
+		}
+	}
+	void escape_0(){
+		text.text = "You have a few options on the menu today. You can choose to slide down " +
+			"the rain chute outside the window, but if you're scared of heights I suggest the latter. " +
+			"Your second option is to walk right out the front door again, but you should probably know that " +
+			"the security guard and the police are on their way, kinda had a feeling you weren't a real cop.\n\n" +
+			"Down you go! Press D.";
+		if (Input.GetKeyDown(KeyCode.D)){
+			myState = States.escape_1;
+		}
+	}
+	void escape_1(){
+		text.text = "You climb down the chute and dive into nearby bushes. The police aren't " +
+			"on the scene yet so you sprint across the courtyard to the car you initially stole.\n\nPress D" +
+			" to drive back to prison.";
+		if (Input.GetKeyDown(KeyCode.D)){
+			myState = States.freedom;
+		}
+	}	
+}
